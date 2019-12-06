@@ -11,10 +11,10 @@
 use MiW\Results\Entity\User;
 use MiW\Results\Utils;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 // Carga las variables de entorno
-Utils::loadEnv(__DIR__ . '/../');
+Utils::loadEnv(__DIR__ . '/../../');
 
 $entityManager = Utils::getEntityManager();
 
@@ -26,16 +26,17 @@ if (in_array('--json', $argv, true)) {
 } else {
     $items = 0;
     echo PHP_EOL . sprintf(
-        '  %2s: %20s %30s %7s' . PHP_EOL,
-        'Id', 'Username:', 'Email:', 'Enabled:'
+        '  %2s: %20s %30s %7s %7s' . PHP_EOL,
+        'Id', 'Username:', 'Email:', 'Admin:', 'Enabled:'
     );
     /** @var User $user */
     foreach ($users as $user) {
         echo sprintf(
-            '- %2d: %20s %30s %7s',
+            '- %2d: %20s %30s %7s %7s',
             $user->getId(),
             $user->getUsername(),
             $user->getEmail(),
+            ($user->isAdmin()) ? 'true' : 'false',
             ($user->isEnabled()) ? 'true' : 'false'
         ),
         PHP_EOL;

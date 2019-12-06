@@ -13,10 +13,10 @@ use MiW\Results\Entity\Result;
 use MiW\Results\Entity\User;
 use MiW\Results\Utils;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 // Carga las variables de entorno
-Utils::loadEnv(__DIR__ . '/../');
+Utils::loadEnv(__DIR__ . '/../../');
 
 $entityManager = Utils::getEntityManager();
 
