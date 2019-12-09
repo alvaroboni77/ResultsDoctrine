@@ -28,8 +28,8 @@ try {
     $parameters = $matcher->match($path_info);
     $action = $parameters['_controller'];
     $param1 = $parameters['json'] ?? null;
-    $param2 = $parameters['id'] ?? null;
-    $action($param1, $param2);
+//    $param2 = $parameters['id'] ?? null;
+    $action($param1/*, $param2*/);
 
 } catch (ResourceNotFoundException $e) {
     echo 'Caught exception: The resource could not be found' . PHP_EOL;

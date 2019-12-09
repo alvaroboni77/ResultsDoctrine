@@ -51,7 +51,6 @@ function listUsers(?string $json = null) {
     echo ($json)
         ? "<pre>".json_encode($users, JSON_PRETTY_PRINT)."</pre>"
         :var_dump($users);
-
 }
 
 function showUser(?string $json = null) {
@@ -81,9 +80,7 @@ function showUser(?string $json = null) {
             exit(0);
         }
 
-        echo ($json)
-            ? "<pre>".json_encode($user, JSON_PRETTY_PRINT)."</pre>"
-            :var_dump($user);
+        echo "<pre>".json_encode($user, JSON_PRETTY_PRINT)."</pre>";
 
         $rutaHome = $routes->get('ruta_raiz')->getPath();
         echo "<br><a href='$rutaHome'>Volver a la página principal</a>";
@@ -273,13 +270,11 @@ function showResult(?string $json = null) {
             ->findOneBy(["id" => $result_id]);
 
         if (null == $result) {
-            echo "Usuario $result_id no encontrado";
+            echo "Resultado #$result_id no encontrado";
             exit(0);
         }
 
-        echo ($json)
-            ? "<pre>".json_encode($result, JSON_PRETTY_PRINT)."</pre>"
-            :var_dump($result);
+        echo "<pre>".json_encode($result, JSON_PRETTY_PRINT)."</pre>";
 
         $rutaHome = $routes->get('ruta_raiz')->getPath();
         echo "<br><a href='$rutaHome'>Volver a la página principal</a>";
@@ -324,6 +319,105 @@ function newResult() {
                 . ' USER ' . $user->getUsername() . PHP_EOL;
         } catch (Exception $exception) {
             echo $exception->getMessage();
+        }
+
+        $rutaHome = $routes->get('ruta_raiz')->getPath();
+        echo "<br><a href='$rutaHome'>Volver a la página principal</a>";
+    }
+}
+
+function updateResult() {
+    global $routes;
+
+    if($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $rutaActualizarResultado = $routes->get('ruta_update_result')->getPath();
+        echo <<<___MARCA_FIN
+            <form method="POST" action="$rutaActualizarResultado">
+                ID de resultado: <input type="number" name="result_id"><br>
+                Resultado: <input type="number" name="result"><br>
+                ID de usuario: <input type="number" name="user_id"><br>           
+                <input type="submit" value="Enviar"> 
+            </form>
+    ___MARCA_FIN;
+
+    } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $entityManager = Utils::getEntityManager();
+
+        $result_id = $_POST['result_id'];
+        $result_val = $_POST['result'];
+        $user_id = $_POST['user_id'];
+
+        /** @var Result $result */
+        $result = $entityManager
+            ->getRepository(Result::class)
+            ->findOneBy(["id" => $result_id]);
+
+        if (null == $result) {
+            echo "Result #$result_id not found";
+            exit(0);
+        }
+
+        if( $result_val != "" ) {
+            $result->setResult($result_val);
+        }
+        if( $user_id != "" ) {
+            /** @var User $new_user */
+            $new_user = $entityManager
+                ->getRepository(User::class)
+                ->findOneBy(["id" => $user_id]);
+            if (null == $new_user) {
+                echo "Usuario #$user_id not found";
+                exit(0);
+            }
+            $result->setUser($new_user);
+        }
+
+
+        try {
+            $entityManager->flush();
+            echo "Updated result with ID #" . $result->getId() . PHP_EOL;
+        }catch (Exception $exception) {
+            echo $exception->getMessage() . PHP_EOL;
+        }
+
+        $rutaHome = $routes->get('ruta_raiz')->getPath();
+        echo "<br><a href='$rutaHome'>Volver a la página principal</a>";
+    }
+}
+
+function deleteResult() {
+    global $routes;
+
+    if($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $rutaEliminarResultado = $routes->get('ruta_delete_result')->getPath();
+        echo <<<___MARCA_FIN
+            <form method="POST" action="$rutaEliminarResultado">
+                ID de resultado: <input type="text" name="result_id"><br>                            
+                <input type="submit" value="Enviar"> 
+            </form>
+        ___MARCA_FIN;
+
+    } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $entityManager = Utils::getEntityManager();
+
+        $result_id = $_POST['result_id'];
+
+        /** @var Result $result */
+        $result = $entityManager
+            ->getRepository(Result::class)
+            ->findOneBy(["id" => $result_id]);
+
+        if (null == $result) {
+            echo "Resultado #$result_id no encontrado";
+            exit(0);
+        }
+
+        try {
+            echo "Eliminado resultado con ID #" .$result->getId() . PHP_EOL;
+            $entityManager->remove($result);
+            $entityManager->flush();
+        }catch (Exception $exception) {
+            echo $exception->getMessage() . PHP_EOL;
         }
 
         $rutaHome = $routes->get('ruta_raiz')->getPath();

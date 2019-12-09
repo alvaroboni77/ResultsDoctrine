@@ -42,7 +42,7 @@ ruta_list_results:
   methods:   [ GET ]
 
 ruta_show_result:
-  path:     /result/{json}
+  path:     /result/
   controller: 'showResult'
   defaults:
     id: _default_id_
