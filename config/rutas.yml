@@ -1,0 +1,78 @@
+# rutas.yml
+---
+ruta_raiz:
+  path:     /
+  controller: 'showHomePage'
+  methods:   [ GET ]
+
+ruta_list_users:
+  path:     /users/{json}
+  controller: 'listUsers'
+  defaults:
+    json: null
+  methods:   [ GET ]
+
+ruta_show_user:
+  path:     /user/
+  controller: 'showUser'
+  defaults:
+    json: null
+  methods:   [ GET , POST]
+
+ruta_new_user:
+  path:     /user/new
+  controller: 'newUser'
+  methods:   [ GET, POST ]
+
+ruta_update_user:
+  path:     /user/update
+  controller: 'updateUser'
+  methods:   [ GET, POST ]
+
+ruta_delete_user:
+  path:     /user/delete
+  controller: 'deleteUser'
+  methods:   [ GET, POST ]
+
+ruta_list_results:
+  path:     /results/{json}
+  controller: 'listResults'
+  defaults:
+    json: null
+  methods:   [ GET ]
+
+ruta_show_result:
+  path:     /result/{json}
+  controller: 'showResult'
+  defaults:
+    id: _default_id_
+  methods:   [ GET , POST ]
+
+#ruta_get_result_id:
+#  path:     /result/{id}
+#  controller: 'showResult'
+#  defaults:
+#    id: _default_id_
+#  methods:   [ GET , DELETE ]
+
+#ruta_get_delete_result:
+#  path:     /result/{id}
+#  controller: 'showResult'
+#  defaults:
+#    id: _default_id_
+#  methods:   [ GET , DELETE ]
+
+ruta_new_result:
+  path:     /result/new
+  controller: 'newResult'
+  methods:   [ GET, POST ]
+
+ruta_update_result:
+  path:     /result/update
+  controller: 'updateResult'
+  methods:   [ GET, POST ]
+
+ruta_delete_result:
+  path:     /result/delete
+  controller: 'deleteResult'
+  methods:   [ GET, POST ]

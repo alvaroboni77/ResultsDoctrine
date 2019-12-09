@@ -14,7 +14,7 @@ if( $argc < 4 || $argc > 5 ) {
     $fichero = basename( __FILE__ );
     echo <<<MARCA_FIN
         Usage: $fichero <USERNAME> <EMAIL> <PASSWORD> [<ENABLED>]
-MARCA_FIN;
+    MARCA_FIN;
     exit(0);
 }
 

@@ -14,7 +14,7 @@ $entityManager = Utils::getEntityManager();
 if( $argc < 4) {
     $fichero = basename(__FILE__);
     echo <<<MARCA_FIN
-        Usage: $fichero <ID USUARIO> <CAMPO> <VALOR> <CAMPO> <VALOR> ...
+        Usage: $fichero <ID RESULT> <CAMPO> <VALOR> <CAMPO> <VALOR> ...
     MARCA_FIN;
     exit(0);
 }
